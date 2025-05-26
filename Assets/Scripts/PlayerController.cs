@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,7 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float boostSpeed = 75f;
     [SerializeField] float baseSpeed = 50f;
     SurfaceEffector2D surfaceEffector2D;
-    // Start is called before the first frame update
+    bool canMove = true;
+
     void Start()
     {
         rbd2 = GetComponent<Rigidbody2D>();
@@ -20,8 +22,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotatePlayer();
-        RespondToBoost();
+        if (canMove)
+        {
+            RotatePlayer();
+            RespondToBoost();
+        }
+    }
+
+    public void DisableControls()
+    {
+        canMove = false;
+        surfaceEffector2D.speed = 0f;
     }
 
     private void RespondToBoost()
